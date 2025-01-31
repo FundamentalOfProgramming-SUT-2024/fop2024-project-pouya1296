@@ -944,7 +944,7 @@ void printmessage(int hittype, int fire, int invalidcommand, int newlevel, int m
     }
     else if(fire == 2){
         attron(COLOR_PAIR(1) | A_BOLD);
-        mvprintw(0,middle_x-6, "What a shot!");
+        mvprintw(0,middle_x-6, "You picked up a spell");
         refresh();
         attroff(COLOR_PAIR(1) | A_BOLD);
     }}
@@ -1499,6 +1499,9 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
                 }
                  
                  int ismons = rand()%4;
+                 for(int k =0; k<6;k++){
+                    rooms[i].mons[k].hp = 0;
+                 }
                 if(1){
                     if(1){
                     int monsx = rooms[i].bottomleft.x + 1 + rand() % 5;
@@ -4382,8 +4385,14 @@ if(map[*level][player->x][player->y] == 'b'){
 }
 
 if(map[*level][player->x][player->y] == 'E'){
+    int winner = 1;
+    for(int i=0; i<6; i++){
+        if(!(rooms[*level][roomsnum].mons[i].hp<=0))
+        winner =0;
+    }
+    if(winner){
     game->endgame =1;
-    *win =1;
+    *win =1;}
 }
 
 if(map[*level][player->x][player->y] == '#'){
@@ -4516,19 +4525,29 @@ if((map[*level][player->x][player->y ] >= '6')&& (map[*level][player->x][player-
     int key = getch();
     if(key == 'p'){ 
     if(map[*level][player->x][player->y ] == '6'){
-        if(rooms[*level][roomsearch(rooms[*level], player->x, player->y)].theme !=Nightmare)
+        if(rooms[*level][roomsearch(rooms[*level], player->x, player->y)].theme !=Nightmare){
         game->slist[0].count = game->slist[0].count + 1;
+        *fire =2;
+        *hittype =0; 
+        *invalid =0;
+        }
         map[*level][player->x][player->y ] = '.';
     }
     else if(map[*level][player->x][player->y ] == '7'){
          map[*level][player->x][player->y ] = '.';
-         if(rooms[*level][roomsearch(rooms[*level], player->x, player->y)].theme !=Nightmare)
+         if(rooms[*level][roomsearch(rooms[*level], player->x, player->y)].theme !=Nightmare){
          game->slist[1].count = game->slist[1].count + 1;
+         *fire =2;
+        *hittype =0; 
+        *invalid =0;}
     }
     else if(map[*level][player->x][player->y ] == '8'){
          map[*level][player->x][player->y ] = '.';
-         if(rooms[*level][roomsearch(rooms[*level], player->x, player->y)].theme !=Nightmare)
+         if(rooms[*level][roomsearch(rooms[*level], player->x, player->y)].theme !=Nightmare){
          game->slist[2].count = game->slist[2].count + 1;
+         *fire =2;
+        *hittype =0; 
+        *invalid =0;}
     }
     break;
     }
@@ -4890,20 +4909,20 @@ if(ishungry){
 
 else{
     hremaining = (int)difftime(time(NULL), htime);
-    if((game.recover>=25)&&(game.playerhp<100)&& (!isenchant)&&(hremaining>=1))
+    if((game.recover>=20)&&(game.playerhp<100)&& (!isenchant)&&(hremaining>=1))
     game.playerhp++;
 
     if(hremaining>=1){
     if((game.hunger<100)&&(!game.ishealthspell))
     game.hunger += 1;
-    if(game.hunger<70)
+    if(game.hunger<75)
     game.recover++;
         htime = time(NULL); }
         if(game.playerhp == 100)
         game.recover =0;
 }
 
-if(game.hunger>55){
+if(game.hunger>75){
     ishungry =1;
     game.recover =0;
 }
@@ -5312,20 +5331,20 @@ if(ishungry){
 
 else{
     hremaining = (int)difftime(time(NULL), htime);
-    if((game.recover>=25)&&(game.playerhp<100)&& (!isenchant)&&(hremaining>=1))
+    if((game.recover>=20)&&(game.playerhp<100)&& (!isenchant)&&(hremaining>=1))
     game.playerhp++;
 
     if(hremaining>=1){
     if((game.hunger<100) && (!game.ishealthspell))
     game.hunger += 1;
-    if(game.hunger<55)
+    if(game.hunger<75)
     game.recover++;
         htime = time(NULL); }
         if(game.playerhp == 100)
         game.recover =0;
 }
 
-if(game.hunger>70){
+if(game.hunger>75){
     ishungry =1;
     game.recover =0;
 }
