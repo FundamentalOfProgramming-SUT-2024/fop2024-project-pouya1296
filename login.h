@@ -1,6 +1,14 @@
 #include <ncurses.h>
 #include <string.h>
+#include <mysql/mysql.h>
 
+typedef struct {
+    char username[100];
+    char password[100];
+    char email[100];
+    char question[100];
+    char answer[100];
+} User;
 
 void printshape() {
     char shape[][100] = {        
@@ -47,109 +55,187 @@ void printlogin() {
 }
 
 
+void printarc() {
+    char text[][100] = {
 
+"    __________________________",
+"   |OFFo oON                  |",
+"   | .----------------------. |",
+"   | |  .----------------.  | |",
+"   | |  |                |  | |",
+"   | |))|                |  | |",
+"   | |  |                |  | |",
+"   | |  |                |  | |",
+"   | |  |                |  | |",
+"   | |  |                |  | |",
+"   | |  |                |  | |",
+"   | |  '----------------'  | |",
+"   | |__GAME BOY____________/ |",
+"   |          ________        |",
+"   |    .    (Nintendo)       |",
+"   |  _| |_   \"\"\"\"\"\"\"\"   .-.  |",
+"   |-[_   _]-       .-. (   ) |",
+"   |   |_|         (   ) '-'  |",
+"   |    '           '-'   A   |",
+"   |                 B        |",
+"   |          ___   ___       |",
+"   |         (___) (___)  ,., |",
+"   |        select start ;:;: |",
+"   |                    ,;:;' /",
+"   |                   ,:;:'.'",
+"   '-----------------------`"
+    };
+
+    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2 + 2;
+    int startx = COLS -32;
+
+    for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
+        mvprintw(starty + i, startx, "%s", text[i]);
+    }
+}
+
+int loaduser(char *username, User *addeduser) {
+    MYSQL *sql;
+    MYSQL_RES *resault;
+    MYSQL_ROW row;
+
+    char *server = "localhost";
+    char *user = "root";
+    char *password = "pouya1234";
+    char *database = "userdatabase";
+
+    sql = mysql_init(NULL);
+   
+  mysql_real_connect(sql, server, user, password, database, 0, NULL, 0);
+ 
+    char query[256];
+    snprintf(query, sizeof(query), "SELECT username, password, email, question, answer FROM users WHERE username='%s'", username);
+    if(mysql_query(sql, query)){
+
+    return 0;
+    }
+    
+    
+
+    resault = mysql_store_result(sql);
+    if(resault == NULL)
+    return 0;
+
+    row = mysql_fetch_row(resault);
+    if(row == NULL)
+    return 0;
+        strcpy(addeduser->username, row[0]);
+        strcpy(addeduser->password, row[1]);
+        strcpy(addeduser->email, row[2]);
+        strcpy(addeduser->question, row[3]);
+        strcpy(addeduser->answer, row[4]);
+    
+    mysql_free_result(resault);
+    mysql_close(sql);
+    return 1;
+}
 
 
 int usernamevalid(char newusername[100]){
-    char information[110] = {0};
-    FILE *user = fopen("userinformation.txt", "r");
-    int valid =0;
-    while (fgets(information, 100, user ))
-    {
-        int removelast = strlen(information) -1;
-        information[removelast] = '\0';
-       if(strncmp("username:", information, 9 ) ==0){
-        if(strcmp(information + 9, newusername ) == 0){
-            valid = 1;
-            break;
-        }
-       }
-    }
-    fclose(user);
-    return valid;    
+    User asghar;
+    return loaduser(newusername, &asghar);    
 }
 
 int passwordvalid(char password[100], char username[100]){
-    char information[110] = {0};
-    FILE *user = fopen("userinformation.txt", "r");
-    int valid =0;
-    int found =0;
-    while (fgets(information, 100, user ))
-    {
-        int removelast = strlen(information) -1;
-        information[removelast] = '\0';
-        if(found){
-            if(strcmp(information+ 9, password) ==0){
-                valid =1;
-                break;
-            }
-        }
+   // char information[110] = {0};
+    //FILE *user = fopen("userinformation.txt", "r");
+    // int valid =0;
+    // int found =0;
+    // while (fgets(information, 100, user ))
+    // {
+    //     int removelast = strlen(information) -1;
+    //     information[removelast] = '\0';
+    //     if(found){
+    //         if(strcmp(information+ 9, password) ==0){
+    //             valid =1;
+    //             break;
+    //         }
+    //     }
         
-       if(strncmp("username:", information, 9 ) ==0){
-        if(strcmp(information + 9, username ) == 0){
-           found =1;
-        }
-       }
+    //    if(strncmp("username:", information, 9 ) ==0){
+    //     if(strcmp(information + 9, username ) == 0){
+    //        found =1;
+    //     }
+    //    }
      
-    }
-    fclose(user);
-    return valid;    
+    // }
+    
+    //fclose(user);
+    User asghar;
+    loaduser(username, &asghar);
+    if(strcmp(password, asghar.password) == 0)
+    return 1;
+    return 0;
+       
 }
 
 int questionvalid(char answer[100], char username[100]){
-    char information[110] = {0};
-    FILE *user = fopen("userinformation.txt", "r");
-    int valid =0;
-    int found =0;
-    while (fgets(information, 100, user ))
-    {
-        int removelast = strlen(information) -1;
-        information[removelast] = '\0';
-        if(found){
-            if(strncmp(information, "answer:" ,7) ==0){
-                if(strcmp(information+ 7, answer ) ==0)
-                valid =1;
-                break;
-            }
+    // char information[110] = {0};
+    // FILE *user = fopen("userinformation.txt", "r");
+    // int valid =0;
+    // int found =0;
+    // while (fgets(information, 100, user ))
+    // {
+    //     int removelast = strlen(information) -1;
+    //     information[removelast] = '\0';
+    //     if(found){
+    //         if(strncmp(information, "answer:" ,7) ==0){
+    //             if(strcmp(information+ 7, answer ) ==0)
+    //             valid =1;
+    //             break;
+    //         }
             
-        }
+    //     }
         
-       if(strncmp("username:", information, 9 ) ==0){
-        if(strcmp(information + 9, username ) == 0){
-           found =1;
-        }
-       }
+    //    if(strncmp("username:", information, 9 ) ==0){
+    //     if(strcmp(information + 9, username ) == 0){
+    //        found =1;
+    //     }
+    //    }
      
-    }
-    fclose(user);
-    return valid;    
+    // }
+    // fclose(user);
+    // return valid;
+    User asghar;
+    loaduser(username, &asghar);
+    if(strcmp(answer, asghar.answer) == 0)
+    return 1;
+    return 0;    
 }
 
 void findquestion(char question[100] , char username[100]){
-        char information[110] = {0};
-    FILE *user = fopen("userinformation.txt", "r");
-    int valid =0;
-    int found =0;
-    while (fgets(information, 100, user ))
-    {
-        int removelast = strlen(information) -1;
-        information[removelast] = '\0';
-        if(found){
-            if(strncmp(information, "question:" ,9) ==0){
-                strcpy(question, information + 9);
-                break;
-            }
+    //     char information[110] = {0};
+    // FILE *user = fopen("userinformation.txt", "r");
+    // int valid =0;
+    // int found =0;
+    // while (fgets(information, 100, user ))
+    // {
+    //     int removelast = strlen(information) -1;
+    //     information[removelast] = '\0';
+    //     if(found){
+    //         if(strncmp(information, "question:" ,9) ==0){
+    //             strcpy(question, information + 9);
+    //             break;
+    //         }
          
-        }
+    //     }
         
-       if(strncmp("username:", information, 9 ) ==0){
-        if(strcmp(information + 9, username ) == 0){
-           found =1;
-        }
-       }
+    //    if(strncmp("username:", information, 9 ) ==0){
+    //     if(strcmp(information + 9, username ) == 0){
+    //        found =1;
+    //     }
+    //    }
      
-    }
-    fclose(user);
+    // }
+    // fclose(user);
+    User asghar;
+    loaduser(username, &asghar);
+    strcpy(question, asghar.question);
 }
 
 
@@ -171,12 +257,13 @@ int startlogin(char username[100]){
     
     init_pair(1,COLOR_GREEN, COLOR_BLACK);
 
-   FILE *file = fopen("userinformation.txt", "a");
+   //FILE *file = fopen("userinformation.txt", "a");
    WINDOW *window = newwin(boxheight, boxwidth, y_box, x_box);
    box(window, 0, 0);
    wbkgd(window, COLOR_PAIR(1));
    attron(COLOR_PAIR(1));
    printshape();
+   printarc();
    printlogin();
    attroff(COLOR_PAIR(1));
    refresh();
@@ -188,7 +275,7 @@ int startlogin(char username[100]){
     mvwprintw(window, 1, 1, "Enter your username: ");
    wrefresh(window); 
    wgetstr(window, username);
-     fclose(file);
+     //fclose(file);
   curs_set(false);
   noecho();
   clear();
@@ -277,7 +364,7 @@ int startlogin(char username[100]){
     wrefresh(window);
    }
 }}}
- fclose(file);
+ //fclose(file);
   curs_set(false);
   noecho();
   clear();
