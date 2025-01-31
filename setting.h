@@ -25,6 +25,58 @@ void printsetting() {
 }
 
 
+void printcloack() {
+    char text[][100] = {
+  
+"                             O",
+"                            (_)",
+"                          _ )_( _",
+"                        /`_) H (_`\\\\",
+"                      .' (  { }  ) '.",
+"                    _/ /` '-'='-' `\\ \\_",
+"                   [_.'   _,...,_   '._]",
+"                    |   .:\"`````\":.   |",
+"                    |__//_________\\\\__|",
+"                     | .-----------. |",
+"                     | |  .-\"\"\"-.  | |",
+"                     | | /    /  \\ | |",
+"                     | ||-   <   -|| |",
+"                     | | \\    \\  / | |",
+"                     | |[`\'-...-\'`]| |",
+"                     | | ;-.___.-; | |",
+"                     | | |  |||  | | |",
+"                     | | |  |||  | | |",
+"                     | | |  |||  | | |",
+"                     | | |  |||  | | |",
+"                     | | |  |||  | | |",
+"                     | | | _|||_ | | |",
+"                     | | | >===< | | |",
+"                     | | | |___| | | |",
+"                     | | |  |||  | | |",
+"                     | | |  ;-;  | | |",
+"                     | | | (   ) | | |",
+"                     | | |  '-'  | | |",
+"                     | | \'-------\' | |",
+"                    _| \'-----------\' |_",
+"                   [= === === ==== == =]",
+"                   [__--__--___--__--__]",
+"                  /__-___-___-___-___-__\\",
+"                 `\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"`"
+    };
+
+
+    int starty = (LINES - sizeof(text)/ sizeof(text[0]))/2;
+    int startx = 1;
+
+    for (int i = 0; i < sizeof(text)/ sizeof(text[0]); i++) {
+        mvprintw(starty + i, startx, "%s", text[i]);
+    }
+
+   
+}
+
+
+
 void startsetting(int* difficulty, int* color, int* music){
     initscr();
         while (1)
@@ -49,7 +101,9 @@ void startsetting(int* difficulty, int* color, int* music){
     wbkgd(window, COLOR_PAIR(2));
     attron(COLOR_PAIR(2));
     printsetting();
+    printcloack();
     attroff(COLOR_PAIR(2));
+
     refresh();
     wrefresh(window);
         for(int i =0; i<4; i++){

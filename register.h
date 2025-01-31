@@ -2,6 +2,74 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <mysql/mysql.h>
+
+typedef struct {
+    char username[100];
+    char password[100];
+    char email[100];
+    char question[100];
+    char answer[100];
+} uSer;
+
+
+int Loaduser(char *username, uSer*addeduser) {
+    MYSQL *sql;
+    MYSQL_RES *resault;
+    MYSQL_ROW row;
+
+    char *server = "localhost";
+    char *user= "root";
+    char *password = "pouya1234";
+    char *database = "userdatabase";
+
+    sql = mysql_init(NULL);
+   
+  mysql_real_connect(sql, server, user, password, database, 0, NULL, 0);
+ 
+    char query[256];
+    snprintf(query, sizeof(query), "SELECT username, password, email, question, answer FROM users WHERE username='%s'", username);
+
+    if(mysql_query(sql, query)){
+
+    return 0;
+    }
+    
+
+     resault = mysql_store_result(sql);
+     if(resault == NULL)
+     return 0;
+     row = mysql_fetch_row(resault);
+     if(row == NULL)
+     return 0;
+     
+    //     strcpy(addeduser->username, row[0]);
+    //     strcpy(addeduser->password, row[1]);
+    //     strcpy(addeduser->email, row[2]);
+    //     strcpy(addeduser->question, row[3]);
+    //     strcpy(addeduser->answer, row[4]);
+    
+    // mysql_free_result(resault);
+    mysql_close(sql);
+    return 1;
+}
+
+void saveuser(uSer* newuser) {
+    MYSQL *sql;
+    char *server = "localhost";
+    char *user= "root";
+    char *password = "pouya1234";
+    char *database = "userdatabase";
+
+    sql = mysql_init(NULL);
+    mysql_real_connect(sql, server, user, password, database, 0, NULL, 0) ;
+   
+    char query[600];
+    snprintf(query, sizeof(query),  "INSERT INTO users (username, password, email, question, answer) VALUES ('%s', '%s', '%s', '%s', '%s')",  newuser->username, newuser->password, newuser->email, newuser->question, newuser->answer);
+
+   mysql_query(sql, query);
+    mysql_close(sql);
+}
 
 void printnew() {
     char text[][100] = {        
@@ -24,22 +92,8 @@ void printnew() {
 }
 
 int isusernamevalid(char newusername[100]){
-    char information[110] = {0};
-    FILE *user = fopen("userinformation.txt", "r");
-    int valid =1;
-    while (fgets(information, 100, user ))
-    {
-        int removelast = strlen(information) -1;
-        information[removelast] = '\0';
-       if(strncmp("username:", information, 9 ) ==0){
-        if(strcmp(information + 9, newusername ) == 0){
-            valid = 0;
-            break;
-        }
-       }
-    }
-    fclose(user);
-    return valid;    
+    uSer asghar;
+    return !(Loaduser(newusername, &asghar));    
 }
 
 int ispasswordvalid(char password[100]){
@@ -189,7 +243,7 @@ srand(time(0));
     printnew();
     attroff(COLOR_PAIR(1));
 
-   FILE *file = fopen("userinformation.txt", "a");
+   //FILE *file = fopen("userinformation.txt", "a");
    WINDOW *window = newwin(boxheight, boxwidth, starty, startx);
    box(window, 0, 0);
    wbkgd(window, COLOR_PAIR(1));
@@ -200,17 +254,20 @@ while (1)
    mvwprintw(window, 1, 1, "Enter your username: ");
    wrefresh(window); 
    wgetstr(window, username);
-   if(isusernamevalid(username)){
+   if((isusernamevalid(username))&&(strlen(username)<15)){
     mvwprintw(window, 2, 1, "                              ");
     wrefresh(window);
     break;
    }
    else{
+    if(strlen(username)>=15)
+    mvwprintw(window, 2, 1, "you can't enter more than 15 characters");
+    else{
     wmove(window, 1, 20);
     wclrtoeol(window);
    box(window, 0, 0);
     mvwprintw(window, 2, 1, "The username is already taken.");
-    wrefresh(window);
+    wrefresh(window);}
    }
 }
 mvwprintw(window, 2,1, "press r for random and other keys for manual password:");
@@ -282,10 +339,16 @@ while (1)
    mvwprintw(window,10,3, "Press any key to return to the menu");
    
    wrefresh(window);
+   uSer information;
+   strcpy(information.answer, answer);
+   strcpy(information.email, email);
+   strcpy(information.password, password);
+   strcpy(information.question, question);
+   strcpy(information.username, username);
+   saveuser(&information);
 
-
-   fprintf(file, "username:%s\npassword:%s\nemail:%s\nquestion:%s\nanswer:%s\n", username, password, email, question, answer);
-   fclose(file);
+   //fprintf(file, "username:%s\npassword:%s\nemail:%s\nquestion:%s\nanswer:%s\n", username, password, email, question, answer);
+   //fclose(file);
    noecho();
   getch();
   curs_set(false);
