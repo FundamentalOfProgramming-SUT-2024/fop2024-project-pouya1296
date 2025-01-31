@@ -1226,7 +1226,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
                 gold.y = rooms[i].topleft.y + 4 + rand() % 3;
                 if(map[gold.x][gold.y] == '.'){
                     map[gold.x][gold.y] = 'b';
-                    rooms[i].goldamount =5 + rand() % 5;
+                    rooms[i].goldamount =20 + rand() % 5;
                 }
                 }
                 int istrap = rand() %3;
@@ -1375,7 +1375,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
                 gold.y = rooms[i].topleft.y + 2 + rand() % 3;
                 if(map[gold.x][gold.y] == '.'){
                     map[gold.x][gold.y] = 'b';
-                    rooms[i].goldamount =20 + rand() % 15;
+                    rooms[i].goldamount =30 + rand() % 15;
                 }}
 
                 
@@ -1478,7 +1478,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
             
             else if(rooms[i].theme == Treasure){
                 int isgold = rand() %6;
-                if(isgold<=3){
+                if(1){
                 position gold;
                 gold.x = rooms[i].bottomleft.x + 6 + rand() % 2;
                 gold.y = rooms[i].topleft.y + 4 + rand() % 5;
@@ -1488,7 +1488,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
                 }                
                 }
 
-                if(isgold>3){
+                if(1){
                     position gold;
                 gold.x = rooms[i].bottomleft.x + 3 + rand() % 4;
                 gold.y = rooms[i].topleft.y + 7 + rand() % 3;
@@ -1499,7 +1499,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
                 }
                  
                  int ismons = rand()%4;
-                if(ismons){
+                if(1){
                     if(1){
                     int monsx = rooms[i].bottomleft.x + 1 + rand() % 5;
                     int monsy = rooms[i].topleft.y + 1 + rand() % 5;
@@ -2491,6 +2491,14 @@ void spelllist(data* game){
     }
     clear();
     }
+}
+
+int playercheck(char map[][maxx + 1][maxy+ 1], int x,int  y, int *level){
+    if((map[*level][x][y ] == '.') || (map[*level][x][y ] == '+') || (map[*level][x][y ] == '#') ||(map[*level][x][y ] == '=') ||(map[*level][x][y ] == '^')||(map[*level][x][y ] == '?') || (map[*level][x][y ] == '<') || (map[*level][x][y ] == '&') ||(map[*level][x][y ] == '@') || (map[*level][x][y ] == 'd')|| (map[*level][x][y ] == '$')|| (map[*level][x][y ] == 'E')|| (map[*level][x][y ] == 'b')||(map[*level][x][y ] == 'f') ||((map[*level][x][y ] >= '1')&& (map[*level][x][y ] <= '8')) ||(map[*level][x][y ] == 'k')||(map[*level][x][y ] == 'a')||(map[*level][x][y ] == 'm')||(map[*level][x][y ] == 'L')||(map[*level][x][y ] == 'J')||(map[*level][x][y ] == 'I')){
+        return 1;
+        }
+        else
+        return 0;
 }
 
 void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,room rooms[4][6], int * playerhp, int *level, int* invalid, char password[], int* passwordmode, int* passend, int* ancient, int* brokenancient, position* save, int color, data* game, int* dontpick, int* win, int* newroom, int dontchoose, int* hittype,int* monshp, int* spellcounter, int* isspeed, int* fire){
@@ -3981,7 +3989,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
     else{
        *invalid = 1;
     }
-    
+    if(!((*isspeed)&&(*spellcounter <= 11))){
     if((map[*level][player->x][player->y ] == '.') || (map[*level][player->x][player->y ] == '+') || (map[*level][player->x][player->y ] == '#') ||(map[*level][player->x][player->y ] == '=') ||(map[*level][player->x][player->y ] == '^')||(map[*level][player->x][player->y ] == '?') || (map[*level][player->x][player->y ] == '<') || (map[*level][player->x][player->y ] == '&') ||(map[*level][player->x][player->y ] == '@') || (map[*level][player->x][player->y ] == 'd')|| (map[*level][player->x][player->y ] == '$')|| (map[*level][player->x][player->y ] == 'E')|| (map[*level][player->x][player->y ] == 'b')||(map[*level][player->x][player->y ] == 'f') ||((map[*level][player->x][player->y ] >= '1')&& (map[*level][player->x][player->y ] <= '8')) ||(map[*level][player->x][player->y ] == 'k')||(map[*level][player->x][player->y ] == 'a')||(map[*level][player->x][player->y ] == 'm')||(map[*level][player->x][player->y ] == 'L')||(map[*level][player->x][player->y ] == 'J')||(map[*level][player->x][player->y ] == 'I')){
         }
     
@@ -3989,7 +3997,104 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
             player->x = copyx;
             player->y = copyy;
         }
+}
+else{
+    if(playercheck(map, player->x, player->y, level)){
+        if(input =='a'){
+            if(playercheck(map, player->x+1, player->y, level)){
 
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+        
+        else if(input =='w'){
+            if(playercheck(map, player->x, player->y+1, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+        
+        else if(input =='s'){
+            if(playercheck(map, player->x, player->y-1, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+        
+        else if(input =='d'){
+            if(playercheck(map, player->x-1, player->y, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+       
+        else if(input =='q'){
+            if(playercheck(map, player->x+1, player->y+1, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+        
+        else if(input =='e'){
+            if(playercheck(map, player->x-1, player->y+1, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+           
+        else if(input =='z'){
+            if(playercheck(map, player->x+1, player->y-1, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+     
+        else if(input =='c'){
+            if(playercheck(map, player->x-1, player->y-1, level)){
+
+            }
+            else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+
+        }
+  
+    }
+     
+     else{
+            player->x = copyx;
+            player->y = copyy;
+        }
+}
 
     if(map[*level][player ->x][player ->y] == '+'){
         if(((player ->x == rooms[*level][0].door[1].x) &&(player ->y == rooms[*level][0].door[1].y) ) ||(player ->x == rooms[*level][0].door[2].x) &&(player ->y == rooms[*level][0].door[2].y) ){
