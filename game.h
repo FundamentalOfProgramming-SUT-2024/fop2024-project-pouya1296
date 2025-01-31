@@ -4791,7 +4791,7 @@ else{
     if(hremaining>=1){
     if((game.hunger<100)&&(!game.ishealthspell))
     game.hunger += 1;
-    if(game.hunger<55)
+    if(game.hunger<70)
     game.recover++;
         htime = time(NULL); }
         if(game.playerhp == 100)
@@ -5220,7 +5220,7 @@ else{
         game.recover =0;
 }
 
-if(game.hunger>55){
+if(game.hunger>70){
     ishungry =1;
     game.recover =0;
 }
@@ -5387,7 +5387,10 @@ if(win && game.endgame){
 
     attron(COLOR_PAIR(4) | A_BOLD);
      printyouwon();
+     if(!isguest)
      printttt(username, game.totalscore);
+     else
+     printttt(username, game.gold *(game.difficulty + 1));
      printinfo(game.playerhp, game.level, game.hits, game.gold, game.ancient, game.brokenancient, goldsave);
     attroff(COLOR_PAIR(4) | A_BOLD);
     refresh();
@@ -5397,7 +5400,10 @@ if(win && game.endgame){
 else if ( !win && game.endgame){
        clear();
        attron(COLOR_PAIR(1) | A_BOLD);
+       if(!isguest)
     printyoulost(game.totalscore);
+    else
+    printyoulost(game.gold *(game.difficulty + 1));
     printinfo(game.playerhp, game.level, game.hits, game.gold, game.ancient, game.brokenancient, goldsave);
     attroff(COLOR_PAIR(1) | A_BOLD);
     refresh();
