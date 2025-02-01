@@ -193,14 +193,37 @@ void printsoldierright() {
     };
 
     int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2;
-    int startx = COLS -32;
+    int startx = COLS -30;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
         mvprintw(starty + i, startx, "%s", text[i]);
     }
 }
 
-void printquit() {
+void printtea() {
+    char text[][100] = {
+"    (  )   (   )  )",
+"     ) (   )  (  (",
+"     ( )  (    ) )",
+"     _____________",
+"    <_____________> ___",
+"    |             |/ _ \\",
+"    |               | | |",
+"    |               |_| |",
+" ___|             |\\___/",
+"/    \\___________/    \\",
+"\\_____________________/"
+    };
+
+    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2;
+    int startx = COLS -26;
+
+    for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
+        mvprintw(starty + i, startx, "%s", text[i]);
+    }
+}
+
+void printquit(WINDOW* window) {
     char text[][100] = {
 "   ____    _    _   _____   _______ ",
 "  / __ \\  | |  | | |_   _| |__   __|",
@@ -211,11 +234,11 @@ void printquit() {
                                     
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5;
-    int startx = (COLS - strlen(text[0])) / 2-2;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2 ;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
@@ -239,7 +262,7 @@ void printkill() {
     }
 }
 
-void printspeed() {
+void printspeed(WINDOW* window) {
     char text[][100] = {
         "            zeeeeee-",
         "            z$$$$$$\"",
@@ -269,15 +292,15 @@ void printspeed() {
         "^"
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5;
-    int startx = (COLS - strlen(text[0])) / 2-2;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printheart() {
+void printheart(WINDOW * window) {
     char text[][100] = {
         "⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣶⣤⡀⢀⣤⣶⣿⣿⣿⣿⣿⣷⣤⡀⠀⠀",
         "⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀",
@@ -293,15 +316,15 @@ void printheart() {
         "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5;
-    int startx = (COLS - strlen(text[0])) / 2+26;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2 +27;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printwand() {
+void printwand(WINDOW* window) {
     char text[][100] = {
         "        __",
         "       ,. |_'",
@@ -316,15 +339,15 @@ void printwand() {
         " /"        
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5;
-    int startx = (COLS - strlen(text[0])) / 2 -2;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printdagger() {
+void printdagger(WINDOW* window) {
     char text[][100] = {
 "   ___________________________________ ______________________",
 "  \\                                  | (_)     (_)    (_)   \\",
@@ -332,15 +355,15 @@ void printdagger() {
 "    `-..........................____|_(                  )_/"
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2 + 5;
-    int startx = (COLS - strlen(text[0])) / 2+2;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printmace() {
+void printmace(WINDOW* window) {
     char text[][100] = {
         "                                           _.gd8888888bp._                  ",
         "                                        .g88888888888888888p.               ",
@@ -362,29 +385,29 @@ void printmace() {
         "                                           \"\"YY8888888PP\"\"   "
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5;
-    int startx = (COLS - strlen(text[0])) / 2+4;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printarrow() {
+void printarrow(WINDOW* window) {
     char text[][100] = {
         ">>>>>>>_____________________\\`-._",
         ">>>>>>>                     /.-'"
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5;
-    int startx = (COLS - strlen(text[0])) / 2+2;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printsword() {
+void printsword(WINDOW* window) {
     char text[][100] = {
 "              />",
 " ()          //---------------------------------------------------------(",
@@ -393,15 +416,15 @@ void printsword() {
 "              \\\\>"
 };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2 + 5;
-    int startx = (COLS - strlen(text[0])) / 2 -30;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2- 26;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
-void printbio() {
+void printbio(WINDOW* window) {
     char text[][100] = {        
 "                       __    _                                    ",
 "                    _wr\"\"        \"-q__                             ",
@@ -428,11 +451,106 @@ void printbio() {
 "          \"\"9@#####@M\"\"           \"\"P@#####@M\"\" "
     };
 
-    int starty = (LINES - sizeof(text) / sizeof(text[0])) / 2+5 ;
-    int startx = (COLS - strlen(text[0])) / 2 + 4;
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2+4;
 
     for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
-        mvprintw(starty + i, startx, "%s", text[i]);
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
+    }
+}
+
+void printcandy(WINDOW* window) {
+    char text[][100] = {        
+"        .",
+"      ,i \\",
+"    ,' 8b \\",
+"  ,;o  `8b \\",
+" ;  Y8. d8  \\",
+"-+._ 8: d8. i:",
+"    `:8 `8i `8",
+"      `._Y8  8:  ___",
+"         `'---Yjdp  \"8m._",
+"              ,\"\' _,o9   `m._",
+"              | o8P\"   _.8d8P`-._",
+"              :8\'   _oodP\"   ,dP'`-._",
+"               `: dd8P'   ,odP'  do8'`.",
+"                 `-'   ,o8P'  ,o8P' ,8P`.",
+"                   `._dP'   ddP'  ,8P' ,..",
+"                      \"`._ PP'  ,8P' _d8\'L..__",
+"                          `\"-._88\'  .PP,\'7 ,8.`-.._",
+"                               ``'\"--\"\'  | d8' :8i `i.",
+"                                         l d8  d8  dP/",
+"                                          \\`' J8' `P\'",
+"                                           \\ ,8F  87",
+"                                           `.88  ,'",
+"                                            `.,-' "
+    };
+
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2-20;
+
+    for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
+    }
+}
+
+void printicecream(WINDOW* window) {
+    char text[][100] = {        
+"            .oo.",
+"          oGGGGGGo",
+"         GGGGGGGGGG",
+"  .mMMMMMMGGGGGGEEEE=",
+" MMMMMMMMMMMGGEEEEEEEE",
+"MMMMMMMMMMMNICKEEEEEEEE",
+"MMMMMMMMMMMMMEEEEEEEEEE",
+"!MMMMMMMMMMMOOEEEEEEEE",
+" MMM!MMMMMMOOOOOOE!=",
+"  MM!!!!!!!!!!!!!!!",
+"   MM!!!!!!!!!!!!!'",
+"   !M!!!!!!!!!!!!!",
+"    MM!!!!!!!!!!!'",
+"    MM!!!!!!!!!!!",
+"    ! `!!!!!!!!!'",
+"    .  !!!!!!!!!",
+"       `!!!!!!!\'",
+"        !!!!!!!",
+"        `!!!!!\'",
+"         !!!!!",
+"         `!!!\'",
+"          !!!",
+"          `!\'",
+"           !"   
+    };
+
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2-3;
+
+    for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
+    }
+}
+
+void printburger(WINDOW* window) {
+    char text[][100] = {        
+"                           |\\ /| /|_/|",
+"                          |\\||-|\\||-/|/|",
+"                           \\\\|\\|//||///",
+"          _..----.._       |\\/\\||//||||",
+"        .\'     o    \'.     |||\\\\|/\\\\ ||",
+"       /   o       o  \\    | './\\_/.' |",
+"      |o        o     o|   |          |",
+"      /\'-.._o     __.-\'\\   |          |",
+"      \\      `````     /   |          |",
+"      |``--........--'`|    \'.______.\'",
+"       \\              /",
+"        `\'----------\'`"
+    };
+
+    int starty = (30 - sizeof(text) / sizeof(text[0])) / 2 ;
+    int startx = (100 - strlen(text[0])) / 2-4;
+
+    for (int i = 0; i < sizeof(text) / sizeof(text[0]); i++) {
+        mvwprintw(window, starty + i, startx, "%s", text[i]);
     }
 }
 
@@ -1969,16 +2087,24 @@ void printmap(char map[maxx +1][maxy + 1], position player, int color, room room
         }
         }
        
+        // if(map[player.x][player.y] == '#'){
+        //     realmap[player.x][player.y] = map[player.x][player.y];   
+        //     if(map[player.x+1][player.y] == '#')
+        //      realmap[player.x+1][player.y] = map[player.x+1][player.y];
+        //      if(map[player.x][player.y+1] == '#')  
+        //      realmap[player.x][player.y+1] = map[player.x][player.y+1];  
+        //      if(map[player.x+1][player.y+1] == '#')
+        //      realmap[player.x+1][player.y+1] = map[player.x+1][player.y+1];  
+        // }
         if(map[player.x][player.y] == '#'){
-            realmap[player.x][player.y] = map[player.x][player.y];   
-            if(map[player.x+1][player.y] == '#')
-             realmap[player.x+1][player.y] = map[player.x+1][player.y];
-             if(map[player.x][player.y+1] == '#')  
-             realmap[player.x][player.y+1] = map[player.x][player.y+1];  
-             if(map[player.x+1][player.y+1] == '#')
-             realmap[player.x+1][player.y+1] = map[player.x+1][player.y+1];  
+        for(int i = -2; i<3; i++){
+            for(int j =-2; j<3; j++){
+            if(map[player.x+i ][player.y +j] == '#'){
+                realmap[player.x + i][player.y +j] = '#';
+            }
+            }
         }
-        
+        }
         for(int i =0; i<maxx; i++){
             for(int j =0; j< maxy; j++){
                 starttheme(realmap, i, j, rooms, level,1);
@@ -2105,38 +2231,51 @@ int passwordcheck(char password[]){
 }
 
 void foodmenu(data* game){
-
+curs_set(false);
+         noecho();
  while (1)
     {
-         clear();
-         curs_set(false);
-         noecho();
-    int boxheight = 25;
-    int boxwidth = 80;
-    int y_box = (LINES - boxheight) /2;
-    int x_box = (COLS - boxwidth) /2;
+         
+    int boxheight = 30;
+    int boxwidth = 100;
+    int y_box = (LINES - boxheight) /2 +5;
+    int x_box = (COLS - boxwidth) /2-4;
 
     WINDOW *window = newwin(boxheight, boxwidth, y_box, x_box);
     box(window, 0, 0);
     wbkgd(window, COLOR_PAIR(4));
     keypad(stdscr, true);
-    refresh();
-    wrefresh(window);
     int choice =0;
     while(1){
         clear();
           curs_set(false);
          noecho();
+         wclear(window);
      box(window, 0, 0);
     wbkgd(window, COLOR_PAIR(4));
     keypad(stdscr, true);
-    refresh();
-    wrefresh(window);
+    
     health(game);
     hunger(game);
     attron(COLOR_PAIR(4) | A_BOLD);
     printfood();
+    printtea();
     attroff( COLOR_PAIR(4) | A_BOLD);
+    if(choice == game->foodamount){
+        printquit(window);
+    }
+    else{
+        if(strcmp(game->flist[choice].name, "Normal") == 0){
+            printcandy(window);
+        }
+        else if(strcmp(game->flist[choice].name, "Great") == 0){
+            printicecream(window);
+        }
+        else if(strcmp(game->flist[choice].name, "Magic") == 0){
+            printburger(window);
+        }
+    }
+
         for(int i =0; i<game->foodamount +1; i++){
             if(i == choice){
                 wattron(window, A_REVERSE);
@@ -2150,8 +2289,8 @@ void foodmenu(data* game){
             }
             
         }
+        refresh();
         wrefresh(window);
-
         int key = getch();
         if(key != ERR){
         if(key == KEY_UP){
@@ -2227,7 +2366,7 @@ void weaponlist(data* game){
     int boxheight = 30;
     int boxwidth = 100;
     int y_box =  5+(LINES - boxheight) /2;
-    int x_box = (COLS - boxwidth) /2;
+    int x_box = (COLS - boxwidth) /2-4;
 
     WINDOW *window = newwin(boxheight, boxwidth, y_box, x_box);
     box(window, 0, 0);
@@ -2244,15 +2383,15 @@ void weaponlist(data* game){
                 
     while(1){
         clear();
+        wclear(window);
           curs_set(false);
          noecho();
      box(window, 0, 0);
     wbkgd(window, COLOR_PAIR(3));
     keypad(stdscr, true);
-    refresh();
-    wrefresh(window);
     attron(COLOR_PAIR(2) | A_BOLD);
     printweapon();
+    printsoldierright();
     attroff( COLOR_PAIR(2) | A_BOLD);
         for(int i =0; i<6; i++){
             if(i == choice){
@@ -2264,17 +2403,17 @@ void weaponlist(data* game){
                 if(game->wlist[i].isactive)
                 wattron(window, A_BOLD);
                 if(i ==0)
-            mvwprintw(window, 1 + i, 3,"Ω Mace         COUNT:   DAMAGE: 5  SHORT-RANGE   ");
+            mvwprintw(window, 1 + i, 3,"Ω Mace         COUNT:     DAMAGE: 5  SHORT-RANGE   ");
             else if(i == 1)
-            mvwprintw(window, 1 + i, 3,"τ Dagger       COUNT:   DAMAGE: 12 LONG-RANGE: 5 ");
+            mvwprintw(window, 1 + i, 3,"τ Dagger       COUNT:     DAMAGE: 12 LONG-RANGE: 5 ");
             else if(i == 2)
-            mvwprintw(window, 1 + i, 3,"Ψ Magic Wand   COUNT:   DAMAGE: 15 LONG-RANGE: 10");
+            mvwprintw(window, 1 + i, 3,"Ψ Magic Wand   COUNT:     DAMAGE: 15 LONG-RANGE: 10");
             else if(i == 3)
-            mvwprintw(window, 1 + i, 3,"➵ Normal Arrow COUNT:   DAMAGE: 5  LONG-RANGE: 5 ");
+            mvwprintw(window, 1 + i, 3,"➵ Normal Arrow COUNT:     DAMAGE: 5  LONG-RANGE: 5 ");
             else if(i == 4)
-            mvwprintw(window, 1 + i, 3,"Χ sword        COUNT:   DAMAGE: 10 SHORT-RANGE   ");
+            mvwprintw(window, 1 + i, 3,"Χ sword        COUNT:     DAMAGE: 10 SHORT-RANGE   ");
              mvwprintw(window, 1+i, 25, "%d", game->wlist[i].count);
-            if(game->wlist[i].isactive)
+         if(game->wlist[i].isactive)
                 wattroff(window, A_BOLD);
                 }
             if(i == choice){
@@ -2282,28 +2421,28 @@ void weaponlist(data* game){
             }
             
         }
-        wrefresh(window);
-        attron(COLOR_PAIR(1) | A_BOLD);
+        
+        wattron(window,COLOR_PAIR(1) | A_BOLD);
          if(choice == 4){
-    printsword();
+    printsword(window);
         }
          else if(choice == 3){
-   printarrow();
+   printarrow(window);
         }
              else if(choice == 2){
-   printwand();
+   printwand(window);
         }
              else if(choice == 1){
-   printdagger();
+   printdagger(window);
         }
              else if(choice == 0){
-   printmace();
+   printmace(window);
         }
         else if(choice == 5)
-        printquit();
-        attroff( COLOR_PAIR(1) | A_BOLD);
-
+        printquit(window);
+        wattroff(window, COLOR_PAIR(1) | A_BOLD);
         refresh();
+        wrefresh(window);
 
         int key = getch();
         if(key != ERR){
@@ -2390,13 +2529,12 @@ void spelllist(data* game){
 
     while(1){
         clear();
+        wclear(window);
           curs_set(false);
          noecho();
      box(window, 0, 0);
     wbkgd(window, COLOR_PAIR(5));
     keypad(stdscr, true);
-    refresh();
-    wrefresh(window);
     attron(COLOR_PAIR(1) | A_BOLD);
     printspell();
     attroff( COLOR_PAIR(1) | A_BOLD);
@@ -2415,21 +2553,21 @@ void spelllist(data* game){
             }
             
         }
-        wrefresh(window);
-           attron(COLOR_PAIR(3) | A_BOLD);
+           wattron(window, COLOR_PAIR(3) | A_BOLD);
         if(choice == 2){
-    printbio();
+    printbio(window);
         }
         else if(choice == 1){
-            printspeed();
+            printspeed(window);
         }
         else if(choice == 0){
-            printheart();
+            printheart(window);
         }
         else if(choice == 3)
-        printquit();
-        attroff( COLOR_PAIR(3) | A_BOLD);
+        printquit(window);
+        wattroff(window, COLOR_PAIR(3) | A_BOLD);
         refresh();
+        wrefresh(window);
 
         int key = getch();
         if(key != ERR){
@@ -3992,6 +4130,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
     else{
        *invalid = 1;
     }
+    
     if(!((*isspeed)&&(*spellcounter <= 11))){
     if((map[*level][player->x][player->y ] == '.') || (map[*level][player->x][player->y ] == '+') || (map[*level][player->x][player->y ] == '#') ||(map[*level][player->x][player->y ] == '=') ||(map[*level][player->x][player->y ] == '^')||(map[*level][player->x][player->y ] == '?') || (map[*level][player->x][player->y ] == '<') || (map[*level][player->x][player->y ] == '&') ||(map[*level][player->x][player->y ] == '@') || (map[*level][player->x][player->y ] == 'd')|| (map[*level][player->x][player->y ] == '$')|| (map[*level][player->x][player->y ] == 'E')|| (map[*level][player->x][player->y ] == 'b')||(map[*level][player->x][player->y ] == 'f') ||((map[*level][player->x][player->y ] >= '1')&& (map[*level][player->x][player->y ] <= '8')) ||(map[*level][player->x][player->y ] == 'k')||(map[*level][player->x][player->y ] == 'a')||(map[*level][player->x][player->y ] == 'm')||(map[*level][player->x][player->y ] == 'L')||(map[*level][player->x][player->y ] == 'J')||(map[*level][player->x][player->y ] == 'I')){
         }
@@ -5018,6 +5157,7 @@ fire =0;
 hittype =0;
 invalid =0;
 newlevel =0;
+if(game.level !=4)
 health(&game);
 printinfo(game.playerhp, game.level, game.hits, game.gold, game.ancient, game.brokenancient, goldsave);
 if(game.level == 4){
@@ -5437,6 +5577,7 @@ fire =0;
 hittype =0;
 invalid =0;
 newlevel =0;
+if(game.level != 4)
 health(&game);
 printinfo(game.playerhp, game.level, game.hits, game.gold, game.ancient, game.brokenancient, goldsave);
 if(game.level == 4){
