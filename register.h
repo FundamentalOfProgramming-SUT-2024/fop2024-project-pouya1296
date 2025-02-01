@@ -260,8 +260,13 @@ while (1)
     break;
    }
    else{
-    if(strlen(username)>=15)
+    if(strlen(username)>=15){
+         wmove(window, 1, 20);
+    wclrtoeol(window);
+   box(window, 0, 0);
     mvwprintw(window, 2, 1, "you can't enter more than 15 characters");
+
+    }
     else{
     wmove(window, 1, 20);
     wclrtoeol(window);
