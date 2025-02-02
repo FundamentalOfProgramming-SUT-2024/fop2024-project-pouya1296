@@ -1067,7 +1067,13 @@ void printmessage(int hittype, int fire, int invalidcommand, int newlevel, int m
     }
     else if(fire == 2){
         attron(COLOR_PAIR(1) | A_BOLD);
-        mvprintw(0,middle_x-6, "You picked up a spell");
+        mvprintw(0,middle_x-11, "You picked up a spell");
+        refresh();
+        attroff(COLOR_PAIR(1) | A_BOLD);
+    }
+    else if(fire == 3){
+        attron(COLOR_PAIR(1) | A_BOLD);
+        mvprintw(0,middle_x-11, "You picked up some food");
         refresh();
         attroff(COLOR_PAIR(1) | A_BOLD);
     }}
@@ -2730,10 +2736,11 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
     }
    
     if((input == 'l')&&(game->lastkey !=0)){
+        *invalid =0;
         handleinput(player, map, 123, rooms, playerhp, level, invalid, password, passwordmode, passend , ancient, brokenancient, save, color, game, dontpick,win, newroom, dontchoose, hittype, monshp, spellcounter, isspeed,fire);    
     }
     
-    if(input == 'w'){
+    else if(input == 'w'){
         if((*isspeed)&&(*spellcounter <= 10)){
             player->y = player->y -2;
         *invalid = 0;
@@ -4566,7 +4573,9 @@ if(map[*level][player->x][player->y] == 'f'){
         game->flist[game->foodamount].hpamount =10;
        strcpy(game->flist[game->foodamount].name ,"Normal");
        game->flist[game->foodamount].ftime = time(NULL);
-         game->foodamount= game->foodamount + 1;}
+         game->foodamount= game->foodamount + 1;
+         *fire =3;
+         }
          map[*level][player->x][player->y] = '.';
     }}
     else
@@ -4581,7 +4590,8 @@ if(map[*level][player->x][player->y] == 'L'){
         game->flist[game->foodamount].fkind =GREAT;
        strcpy(game->flist[game->foodamount].name ,"Great");
         game->flist[game->foodamount].ftime = time(NULL);
-         game->foodamount= game->foodamount + 1;}
+         game->foodamount= game->foodamount + 1;
+         *fire =3;}
          map[*level][player->x][player->y] = '.';
     }}
     else
@@ -4596,7 +4606,8 @@ if(map[*level][player->x][player->y] == 'J'){
         game->flist[game->foodamount].fkind =MAGIC;
        strcpy(game->flist[game->foodamount].name ,"Magic");
         game->flist[game->foodamount].ftime = time(NULL);
-         game->foodamount= game->foodamount + 1;}
+         game->foodamount= game->foodamount + 1;
+         *fire =3;}
          map[*level][player->x][player->y] = '.';
     }}
     else
@@ -4611,7 +4622,8 @@ if(map[*level][player->x][player->y] == 'I'){
         game->flist[game->foodamount].fkind =POISENOUS;
        strcpy(game->flist[game->foodamount].name ,"Normal");
         game->flist[game->foodamount].ftime = time(NULL);
-         game->foodamount= game->foodamount + 1;}
+         game->foodamount= game->foodamount + 1;
+         *fire =3;}
          map[*level][player->x][player->y] = '.';
     }}
     else
