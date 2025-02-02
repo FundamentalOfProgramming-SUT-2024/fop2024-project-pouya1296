@@ -28,6 +28,11 @@
 #define MAGIC 2
 #define POISENOUS 3
 
+int rightshot =0;
+int leftshot = 0;
+int upshot =0;
+int downshot =0;
+
 
 typedef struct{
     int x;
@@ -1367,7 +1372,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
                 }
 
                 int ismons = rand()%4;
-                if(ismons){
+                if(ismons && (!((i == 0) && (level ==0)))){
                     if(ismons){
                     int monsx = rooms[i].bottomleft.x + 1 + rand() % 5;
                     int monsy = rooms[i].topleft.y + 1 + rand() % 5;
@@ -1437,7 +1442,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
             
 
                 int ismons = rand()%4;
-                if(ismons){
+                if(ismons &&(!((i == 0) && (level ==0)))){
                     if(ismons){
                     int monsx = rooms[i].bottomleft.x + 1 + rand() % 5;
                     int monsy = rooms[i].topleft.y + 1 + rand() % 5;
@@ -1546,7 +1551,7 @@ void makemap(char map[maxx + 1][maxy + 1], room rooms[], int numberofrooms, posi
 
              int ismons = rand()%4;
                 if(ismons){
-                    if(ismons){
+                    if(ismons&&(!((i == 0) && (level ==0)))){
                     int monsx = rooms[i].bottomleft.x + 1 + rand() % 5;
                     int monsy = rooms[i].topleft.y + 1 + rand() % 5;
                     if(map[monsx][monsy] == '.'){
@@ -2072,6 +2077,7 @@ void endtheme(char map[maxx +1][maxy + 1], int x, int y, room rooms[], int level
 }
 
 void printmap(char map[maxx +1][maxy + 1], position player, int color, room rooms[],char realmap[maxx +1][maxy + 1] , int level){
+    int roomnumb = roomsearch(rooms, player.x, player.y);
     for(int i =0; i<6; i++){
     if((rooms[i].isvisible ==1)){
         for(int k = rooms[i].bottomleft.x ; k<=rooms[i].bottomright.x; k++ ){
@@ -2097,16 +2103,75 @@ void printmap(char map[maxx +1][maxy + 1], position player, int color, room room
         //      realmap[player.x+1][player.y+1] = map[player.x+1][player.y+1];  
         // }
         if(map[player.x][player.y] == '#'){
-        for(int i = -2; i<3; i++){
-            for(int j =-2; j<3; j++){
+        for(int i = -1; i<2; i++){
+            for(int j =-1; j<2; j++){
             if(map[player.x+i ][player.y +j] == '#'){
                 realmap[player.x + i][player.y +j] = '#';
             }
             }
         }
         }
+        
         for(int i =0; i<maxx; i++){
             for(int j =0; j< maxy; j++){
+             if((roomnumb != -1)&&(rooms[roomnumb].theme != Nightmare)){
+              
+              if(upshot){
+                int i =1;
+                while ((player.y -i>upshot)&&(map[player.x][player.y -i] != '_')&&(map[player.x][player.y -i] != 'O')&&(map[player.x][player.y -i] != '+')&&(map[player.x][player.y -i] != 'D')&&(map[player.x][player.y -i] != 'G')&&(map[player.x][player.y -i] != 'F')&&(map[player.x][player.y -i] != 'S')&&(map[player.x][player.y -i] != 'U')&(map[player.x][player.y -i] != 'E'))
+                {
+                    realmap[player.x][player.y -i] = '|';
+                    i++;
+                }
+                upshot =0;
+                downshot =0;
+                leftshot =0;
+                rightshot =0;
+                
+              }
+            
+             else if(downshot){
+                int i =1;
+                while ((player.y +i<downshot)&&(map[player.x][player.y +i] != '_')&&(map[player.x][player.y +i] != 'O')&&(map[player.x][player.y +i] != '+')&&(map[player.x][player.y +i] != 'D')&&(map[player.x][player.y +i] != 'G')&&(map[player.x][player.y +i] != 'F')&&(map[player.x][player.y +i] != 'S')&&(map[player.x][player.y +i] != 'U')&&(map[player.x][player.y +i] != 'E'))
+                {
+                    realmap[player.x][player.y +i] = '|';
+                    i++;
+                }
+                upshot =0;
+                downshot =0;
+                leftshot =0;
+                rightshot =0;
+                
+              }
+             
+              else if(leftshot){
+                int i =1;
+                while ((player.x-i>leftshot)&&(map[player.x-i][player.y ] != '|')&&(map[player.x-i][player.y ] != 'O')&&(map[player.x-i][player.y ] != '+')&&(map[player.x-i][player.y ] != 'D')&&(map[player.x-i][player.y ] != 'G')&&(map[player.x-i][player.y ] != 'F')&&(map[player.x-i][player.y ] != 'S')&&(map[player.x-i][player.y ] != 'U')&&(map[player.x-i][player.y ] != 'E'))
+                {
+                    realmap[player.x-i][player.y ] = '-';
+                    i++;
+                }
+                upshot =0;
+                downshot =0;
+                leftshot =0;
+                rightshot =0;
+                
+              }
+              
+              else if(rightshot){
+                int i =1;
+                while ((player.x+i<rightshot)&&(map[player.x+i][player.y ] != '|')&&(map[player.x+i][player.y ] != 'O')&&(map[player.x+i][player.y ] != '+')&&(map[player.x+i][player.y ] != 'D')&&(map[player.x+i][player.y ] != 'G')&&(map[player.x+i][player.y ] != 'F')&&(map[player.x+i][player.y ] != 'S')&&(map[player.x+i][player.y ] != 'U')&&(map[player.x+i][player.y ] != 'E'))
+                {
+                    realmap[player.x+i][player.y ] = '-';
+                    i++;
+                }
+                upshot =0;
+                downshot =0;
+                leftshot =0;
+                rightshot =0;
+                
+              }
+               }
                 starttheme(realmap, i, j, rooms, level,1);
                 if(realmap[i][j] == 'd')
                 mvprintw(j,i,"Δ");
@@ -2835,11 +2900,11 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
                 mvprintw(j, i, "δ");
                 else if(map[*level][i][j] == '1')
                 mvprintw(j, i, "Ω");
-                else if(map[*level][i][j] == '2')
+                else if((map[*level][i][j] == '2') || (map[*level][i][j] == 'k'))
                 mvprintw(j, i, "τ");
-                else if(map[*level][i][j] == '3')
+                else if((map[*level][i][j] == '3')||(map[*level][i][j] == 'm'))
                 mvprintw(j, i, "Ψ");
-                else if(map[*level][i][j] == '4')
+                else if((map[*level][i][j] == '4')||(map[*level][i][j] == 'a'))
                 mvprintw(j, i, "➵");
                 else if(map[*level][i][j] == '5')
                 mvprintw(j, i, "Χ");
@@ -3022,15 +3087,17 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
 
         else if((game->wlist[1].isactive ==1) ){
             int ishit =0;
+            int key;
             if((game->wlist[1].count>=1)){
 
             while(1){
         printmap(map[*level], *player, color, rooms[*level], game->realmap[*level], *level);
         refresh();
-    int key = getch();
+     key = getch();
     game->lastkey = key;
       if(key == 'w'){
-      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i> player->y -5); i--){
+      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i>= player->y -5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E')&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i--){
+        upshot =i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3053,12 +3120,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.y>= player->y -5){
-            map[*level][player->x][rooms[*level][roomsnum].topleft.y + 1] = 'k';
-        }
-        else{
- map[*level][player->x][player->y - 5] = 'k';
-        }
+        map[*level][player->x][upshot] = 'k';
       }
       game->wlist[1].count--;
       break;
@@ -3066,7 +3128,8 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       }
     
     else if(key == 'a'){
-         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i> player->x -5); i--){
+         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i>= player->x -5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i--){
+            leftshot =i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3089,19 +3152,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.x>= player->x -5){
-            map[*level][rooms[*level][roomsnum].topleft.x +1][player->y] = 'k';
-        }
-        else{
-  map[*level][player->x - 5][player->y] = 'k';
-        }
+        map[*level][leftshot][player->y] = 'k';
       }
       game->wlist[1].count--;
       break;
     }
     
     else if(key == 's'){
-      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i< player->y +5); i++){
+      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i<= player->y +5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i++){
+        downshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3124,19 +3183,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].bottomleft.y<= player->y +5){
-            map[*level][player->x][rooms[*level][roomsnum].bottomleft.y - 1] = 'k';
-        }
-        else{
- map[*level][player->x][player->y + 5] = 'k';
-        }
+        map[*level][player->x][downshot] = 'k';
       }
       game->wlist[1].count--;
       break;
     }
     
     else if(key == 'd'){
-               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i< player->x +5); i++){
+               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i<= player->x +5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i++){
+                rightshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3159,12 +3214,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topright.x <= player->x +5){
-            map[*level][rooms[*level][roomsnum].topright.x -1][player->y] = 'k';
-        }
-        else{
-  map[*level][player->x + 5][player->y] = 'k';
-        }
+        map[*level][rightshot][player->y] = 'k';
       }
       game->wlist[1].count--;
       break;
@@ -3188,20 +3238,24 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         game->wlist[0].isactive =1;
 
     }
+
+ 
        
         }
        
         else if((game->wlist[2].isactive ==1) ){
             int ishit =0;
+            int key;
             if((game->wlist[2].count>=1)){
 
             while(1){
         printmap(map[*level], *player, color, rooms[*level], game->realmap[*level], *level);
         refresh();
-    int key = getch();
+     key = getch();
     game->lastkey = key;
       if(key == 'w'){
-      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i> player->y -10); i--){
+      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i>= player->y -10)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i--){
+        upshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
@@ -3225,12 +3279,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.y>= player->y -10){
-            map[*level][player->x][rooms[*level][roomsnum].topleft.y + 1] = 'm';
-        }
-        else{
- map[*level][player->x][player->y - 10] = 'm';
-        }
+        map[*level][player->x][upshot] = 'm';
       }
       game->wlist[2].count--;
       break;
@@ -3238,7 +3287,8 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       }
     
     else if(key == 'a'){
-         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i> player->x -10); i--){
+         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i>= player->x -10)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i--){
+            leftshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
@@ -3262,19 +3312,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.x>= player->x -10){
-            map[*level][rooms[*level][roomsnum].topleft.x +1][player->y] = 'm';
-        }
-        else{
-  map[*level][player->x - 10][player->y] = 'm';
-        }
+         map[*level][leftshot][player->y] = 'm';
       }
       game->wlist[2].count--;
       break;
     }
     
     else if(key == 's'){
-      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i< player->y +10); i++){
+      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i<= player->y +10)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i++){
+        downshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
@@ -3298,19 +3344,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].bottomleft.y<= player->y +10){
-            map[*level][player->x][rooms[*level][roomsnum].bottomleft.y - 1] = 'm';
-        }
-        else{
- map[*level][player->x][player->y + 10] = 'm';
-        }
+        map[*level][player->x][downshot] = 'm';
       }
       game->wlist[2].count--;
       break;
     }
     
     else if(key == 'd'){
-               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i< player->x +10); i++){
+               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i<= player->x +10)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i++){
+                rightshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
@@ -3334,12 +3376,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topright.x <= player->x +10){
-            map[*level][rooms[*level][roomsnum].topright.x -1][player->y] = 'm';
-        }
-        else{
-  map[*level][player->x + 10][player->y] = 'm';
-        }
+         map[*level][rightshot][player->y] = 'm';
       }
       game->wlist[2].count--;
       break;
@@ -3350,7 +3387,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         handleinput(player, map, key, rooms, playerhp, level, invalid, password, passwordmode, passend, ancient, brokenancient, save, color, game, dontpick, win, newroom,0, hittype, monshp, spellcounter, isspeed, fire);
         break;
     }
-    
+     
     }
     
     } 
@@ -3363,21 +3400,27 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         game->wlist[2].isactive =0;
         game->wlist[0].isactive =1;
 
-    }      
+    }    
+
+            
+
+    
 
         }
         
         else if((game->wlist[3].isactive ==1) ){
             int ishit =0;
+            int key;
             if((game->wlist[3].count>=1)){
 
             while(1){
         printmap(map[*level], *player, color, rooms[*level], game->realmap[*level], *level);
         refresh();
-    int key = getch();
+     key = getch();
     game->lastkey = key;
       if(key == 'w'){
-      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i> player->y -5); i--){
+      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i>= player->y -5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E')&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i--){
+        upshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -3400,12 +3443,9 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.y>= player->y -5){
-            map[*level][player->x][rooms[*level][roomsnum].topleft.y + 1] = 'a';
-        }
-        else{
- map[*level][player->x][player->y - 5] = 'a';
-        }
+
+            map[*level][player->x][upshot] = 'a'; 
+
       }
       game->wlist[3].count--;
       break;
@@ -3413,7 +3453,8 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       }
     
     else if(key == 'a'){
-         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i> player->x -5); i--){
+         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i>= player->x -5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i--){
+            leftshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -3436,19 +3477,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.x>= player->x -5){
-            map[*level][rooms[*level][roomsnum].topleft.x +1][player->y] = 'a';
-        }
-        else{
-  map[*level][player->x - 5][player->y] = 'a';
-        }
+      map[*level][leftshot][player->y] = 'a';
       }
       game->wlist[3].count--;
       break;
     }
     
     else if(key == 's'){
-      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i< player->y +5); i++){
+      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i<= player->y +5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i++){
+        downshot = i ;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -3471,19 +3508,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].bottomleft.y<= player->y +5){
-            map[*level][player->x][rooms[*level][roomsnum].bottomleft.y - 1] = 'a';
-        }
-        else{
- map[*level][player->x][player->y + 5] = 'a';
-        }
+         map[*level][player->x][downshot] = 'a';
       }
       game->wlist[3].count--;
       break;
     }
     
     else if(key == 'd'){
-               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i< player->x +5); i++){
+               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i<= player->x +5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i++){
+                rightshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -3506,12 +3539,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topright.x <= player->x +5){
-            map[*level][rooms[*level][roomsnum].topright.x -1][player->y] = 'a';
-        }
-        else{
-  map[*level][player->x + 5][player->y] = 'a';
-        }
+        map[*level][rightshot][player->y] = 'a';
       }
       game->wlist[3].count--;
       break;
@@ -3522,6 +3550,8 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         break;
     }
     
+        
+   
     }
     
     } 
@@ -3535,7 +3565,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         game->wlist[0].isactive =1;
 
     }
-       
+     
         }
      
         else if(game->wlist[4].isactive == 1){
@@ -3573,15 +3603,16 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
 
          if((game->wlist[1].isactive ==1) ){
             int ishit =0;
+            int key = game->lastkey;
+            game->lastkey = key;
             if((game->wlist[1].count>=1)){
-
+                
             while(1){
         printmap(map[*level], *player, color, rooms[*level], game->realmap[*level], *level);
         refresh();
-    int key = game->lastkey;
-
       if(key == 'w'){
-      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i> player->y -5); i--){
+      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i>= player->y -5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E')&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i--){
+        upshot =i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3604,20 +3635,16 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.y>= player->y -5){
-            map[*level][player->x][rooms[*level][roomsnum].topleft.y + 1] = 'k';
-        }
-        else{
- map[*level][player->x][player->y - 5] = 'k';
-        }
+        map[*level][player->x][upshot] = 'k';
       }
       game->wlist[1].count--;
       break;
 
       }
-    
-    else if(key == 'a'){
-         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i> player->x -5); i--){
+
+   else if(key == 'a'){
+         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i>= player->x -5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i--){
+            leftshot =i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3640,19 +3667,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.x>= player->x -5){
-            map[*level][rooms[*level][roomsnum].topleft.x +1][player->y] = 'k';
-        }
-        else{
-  map[*level][player->x - 5][player->y] = 'k';
-        }
+        map[*level][leftshot][player->y] = 'k';
       }
       game->wlist[1].count--;
       break;
     }
     
     else if(key == 's'){
-      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i< player->y +5); i++){
+      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i<= player->y +5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i++){
+        downshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3675,19 +3698,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].bottomleft.y<= player->y +5){
-            map[*level][player->x][rooms[*level][roomsnum].bottomleft.y - 1] = 'k';
-        }
-        else{
- map[*level][player->x][player->y + 5] = 'k';
-        }
+        map[*level][player->x][downshot] = 'k';
       }
       game->wlist[1].count--;
       break;
     }
     
     else if(key == 'd'){
-               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i< player->x +5); i++){
+               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i<= player->x +5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i++){
+                rightshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 12;
@@ -3710,18 +3729,13 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topright.x <= player->x +5){
-            map[*level][rooms[*level][roomsnum].topright.x -1][player->y] = 'k';
-        }
-        else{
-  map[*level][player->x + 5][player->y] = 'k';
-        }
+        map[*level][rightshot][player->y] = 'k';
       }
       game->wlist[1].count--;
       break;
     }
   
-    else if(key != ERR){
+    else if((key != ERR)&&(key != 32)){
         handleinput(player, map, key, rooms, playerhp, level, invalid, password, passwordmode, passend, ancient, brokenancient, save, color, game, dontpick, win, newroom,0, hittype, monshp, spellcounter, isspeed, fire);
         break;
     }
@@ -3739,26 +3753,30 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         game->wlist[0].isactive =1;
 
     }
+
+ 
        
         }
        
         else if((game->wlist[2].isactive ==1) ){
             int ishit =0;
+            int key = game->lastkey;
+            game->lastkey = key;
             if((game->wlist[2].count>=1)){
 
             while(1){
         printmap(map[*level], *player, color, rooms[*level], game->realmap[*level], *level);
         refresh();
-    int key = game->lastkey;
       if(key == 'w'){
-      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i> player->y -10); i--){
+      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i>= player->y -10)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i--){
+        upshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
             if(game->isdamagespell == 1)
                         rooms[*level][roomsnum].mons[k].hp -= 15;
-                        rooms[*level][roomsnum].mons[k].dontmove =1;
             ishit =1;
+            rooms[*level][roomsnum].mons[k].dontmove =1;
             *hittype =2;
             *invalid =0;
             if(rooms[*level][roomsnum].mons[k].hp <= 0){
@@ -3775,12 +3793,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.y>= player->y -10){
-            map[*level][player->x][rooms[*level][roomsnum].topleft.y + 1] = 'm';
-        }
-        else{
- map[*level][player->x][player->y - 10] = 'm';
-        }
+        map[*level][player->x][upshot] = 'm';
       }
       game->wlist[2].count--;
       break;
@@ -3788,13 +3801,14 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       }
     
     else if(key == 'a'){
-         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i> player->x -10); i--){
+         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i>= player->x -10)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i--){
+            leftshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
             if(game->isdamagespell == 1)
                         rooms[*level][roomsnum].mons[k].hp -= 15;
-                        rooms[*level][roomsnum].mons[k].dontmove =1;
+                   rooms[*level][roomsnum].mons[k].dontmove =1;     
             ishit =1;
             *hittype =2;
             *invalid =0;
@@ -3812,19 +3826,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.x>= player->x -10){
-            map[*level][rooms[*level][roomsnum].topleft.x +1][player->y] = 'm';
-        }
-        else{
-  map[*level][player->x - 10][player->y] = 'm';
-        }
+         map[*level][leftshot][player->y] = 'm';
       }
       game->wlist[2].count--;
       break;
     }
     
     else if(key == 's'){
-      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i< player->y +10); i++){
+      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i<= player->y +10)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i++){
+        downshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
@@ -3848,25 +3858,21 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].bottomleft.y<= player->y +10){
-            map[*level][player->x][rooms[*level][roomsnum].bottomleft.y - 1] = 'm';
-        }
-        else{
- map[*level][player->x][player->y + 10] = 'm';
-        }
+        map[*level][player->x][downshot] = 'm';
       }
       game->wlist[2].count--;
       break;
     }
     
     else if(key == 'd'){
-               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i< player->x +10); i++){
+               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i<= player->x +10)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i++){
+                rightshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 15;
             if(game->isdamagespell == 1)
                         rooms[*level][roomsnum].mons[k].hp -= 15;
-                        rooms[*level][roomsnum].mons[k].dontmove = 1;
+                        rooms[*level][roomsnum].mons[k].dontmove =1;
             ishit =1;
             *hittype =2;
             *invalid =0;
@@ -3884,23 +3890,18 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topright.x <= player->x +10){
-            map[*level][rooms[*level][roomsnum].topright.x -1][player->y] = 'm';
-        }
-        else{
-  map[*level][player->x + 10][player->y] = 'm';
-        }
+         map[*level][rightshot][player->y] = 'm';
       }
       game->wlist[2].count--;
       break;
     
     }
   
-    else if(key != ERR){
-        handleinput(player, map, key, rooms, playerhp, level, invalid, password, passwordmode, passend, ancient, brokenancient, save, color, game, dontpick, win, newroom,0, hittype, monshp, spellcounter, isspeed,fire);
+    else if((key != ERR)&&(key != 32)){
+        handleinput(player, map, key, rooms, playerhp, level, invalid, password, passwordmode, passend, ancient, brokenancient, save, color, game, dontpick, win, newroom,0, hittype, monshp, spellcounter, isspeed, fire);
         break;
     }
-    
+     
     }
     
     } 
@@ -3913,20 +3914,27 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         game->wlist[2].isactive =0;
         game->wlist[0].isactive =1;
 
-    }      
+    }    
+
+            
+
+    
 
         }
         
         else if((game->wlist[3].isactive ==1) ){
             int ishit =0;
+            int key = game->lastkey;
+            game->lastkey = key;
             if((game->wlist[3].count>=1)){
 
             while(1){
         printmap(map[*level], *player, color, rooms[*level], game->realmap[*level], *level);
         refresh();
-    int key = game->lastkey;
+
       if(key == 'w'){
-      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i> player->y -5); i--){
+      for(int i =player->y; (i>rooms[*level][roomsnum].topleft.y) && (i>= player->y -5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E')&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i--){
+        upshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -3949,12 +3957,9 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.y>= player->y -5){
-            map[*level][player->x][rooms[*level][roomsnum].topleft.y + 1] = 'a';
-        }
-        else{
- map[*level][player->x][player->y - 5] = 'a';
-        }
+
+            map[*level][player->x][upshot] = 'a'; 
+
       }
       game->wlist[3].count--;
       break;
@@ -3962,7 +3967,8 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       }
     
     else if(key == 'a'){
-         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i> player->x -5); i--){
+         for(int i =player->x; (i>rooms[*level][roomsnum].topleft.x) && (i>= player->x -5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i--){
+            leftshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -3985,19 +3991,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topleft.x>= player->x -5){
-            map[*level][rooms[*level][roomsnum].topleft.x +1][player->y] = 'a';
-        }
-        else{
-  map[*level][player->x - 5][player->y] = 'a';
-        }
+      map[*level][leftshot][player->y] = 'a';
       }
       game->wlist[3].count--;
       break;
     }
     
     else if(key == 's'){
-      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i< player->y +5); i++){
+      for(int i =player->y; (i<rooms[*level][roomsnum].bottomleft.y) && (i<= player->y +5)&&(map[*level][player->x][i] != 'O')&&(map[*level][player->x][i] != '&')&&(map[*level][player->x][i] != 'E'); i++){
+        downshot = i +1;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == player->x)&&(rooms[*level][roomsnum].mons[k].pos.y == i)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -4020,19 +4022,15 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].bottomleft.y<= player->y +5){
-            map[*level][player->x][rooms[*level][roomsnum].bottomleft.y - 1] = 'a';
-        }
-        else{
- map[*level][player->x][player->y + 5] = 'a';
-        }
+         map[*level][player->x][downshot] = 'a';
       }
       game->wlist[3].count--;
       break;
     }
     
     else if(key == 'd'){
-               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i< player->x +5); i++){
+               for(int i =player->x; (i<rooms[*level][roomsnum].topright.x) && (i<= player->x +5)&&(map[*level][i][player->y] != 'O')&&(map[*level][i][player->y] != '&')&&(map[*level][i][player->y] != 'E'); i++){
+                rightshot = i;
         for(int k=0; k<6; k++){
         if((rooms[*level][roomsnum].mons[k].pos.x == i)&&(rooms[*level][roomsnum].mons[k].pos.y == player->y)){
             rooms[*level][roomsnum].mons[k].hp -= 5;
@@ -4055,22 +4053,19 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
       if(ishit ==0){
     *hittype = 0;
     *invalid =0;
-        if(rooms[*level][roomsnum].topright.x <= player->x +5){
-            map[*level][rooms[*level][roomsnum].topright.x -1][player->y] = 'a';
-        }
-        else{
-  map[*level][player->x + 5][player->y] = 'a';
-        }
+        map[*level][rightshot][player->y] = 'a';
       }
       game->wlist[3].count--;
       break;
     }
   
-    else if(key != ERR){
+    else if((key != ERR)&&(key != 32)){
         handleinput(player, map, key, rooms, playerhp, level, invalid, password, passwordmode, passend, ancient, brokenancient, save, color, game, dontpick, win, newroom,0, hittype, monshp, spellcounter, isspeed, fire);
         break;
     }
     
+        
+   
     }
     
     } 
@@ -4084,7 +4079,7 @@ void handleinput(position* player, char map[][maxx + 1][maxy+ 1], int input ,roo
         game->wlist[0].isactive =1;
 
     }
-       
+     
         }
    
     }
@@ -4816,6 +4811,7 @@ for(int i=0; i<6; i++){
     }
 
 }
+
 }
 
 void printinfo(int hp, int level, int hits, int gold, int ancient, int brokenancient, int goldsave){
@@ -5152,6 +5148,10 @@ isold =0;
 }
 
 printmap(game.map[game.level], game.player, game.color, game.rooms[game.level], game.realmap[ game.level], game.level);
+leftshot =0;
+rightshot =0;
+upshot =0;
+downshot =0;
 printmessage(hittype, fire, invalid, newlevel,monshp);
 fire =0;
 hittype =0;
@@ -5572,6 +5572,10 @@ isold =0;
 }
 
 printmap(game.map[game.level], game.player, color, game.rooms[game.level], game.realmap[ game.level], game.level);
+leftshot =0;
+rightshot =0;
+upshot =0;
+downshot =0;
 printmessage(hittype, fire, invalid, newlevel, monshp);
 fire =0;
 hittype =0;
