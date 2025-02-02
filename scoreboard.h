@@ -233,7 +233,7 @@ for(int i =0; i<usercount; i++){
             mvwprintw(window, i -start + 2, 10, " SAVAR %s" , user[i].username);}
             else{
             mvwprintw(window, i -start + 2, 1, "%d" , i+1);
-            mvwprintw(window, i -start + 2, 10, "%s" , user[i].username);}
+            mvwprintw(window, i -start + 2, 11, "%s" , user[i].username);}
             mvwprintw(window, i -start + 2, 30, "%d" , user[i].totalscore);
             mvwprintw(window, i -start + 2, 47, "%d" , user[i].totalgold);
             mvwprintw(window, i -start + 2, 57, "%d" , user[i].numberofgames);
